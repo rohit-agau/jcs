@@ -4,13 +4,6 @@ baseUrl: https://raw.githubusercontent.com/rohit-agau/jcs/master/jenkins-cluster
 logo: /images/jenkins.png
 name: Jenkins DevOps Pack Cluster Logic
 
-settings:    
-  fields:
-    - type: string
-      name: jenkins_version
-      caption: Jenkins Version
-      default: "2.332.1"
-
 buttons:
 - caption: Reset Jenkins User Password
   action: resetJenkinsPassword

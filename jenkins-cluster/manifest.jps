@@ -46,7 +46,6 @@ onInstall:
       cloned: 'false'
       user: ${globals.user}
       password: ${globals.password}
-      version: 2.332.1
   cmd[cp]: wget ${baseUrl}/images/jenkins.svg -O ${WEBROOT}ROOT/images/jenkins.svg
 
 success: /text/success.md
