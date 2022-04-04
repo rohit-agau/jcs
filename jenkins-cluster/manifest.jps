@@ -8,6 +8,7 @@ targetRegions:
 categories:
   - apps/clusters
   - apps/dev-and-admin-tools
+  - apps/ci-cd-tools
 homepage: https://jenkins.io/
 description: /text/description.md
 
@@ -46,6 +47,7 @@ onInstall:
       cloned: 'false'
       user: ${globals.user}
       password: ${globals.password}
+      jenkins_version: ${settings.jenkins_version}
   cmd[cp]: wget ${baseUrl}/images/jenkins.svg -O ${WEBROOT}ROOT/images/jenkins.svg
 
 success: /text/success.md

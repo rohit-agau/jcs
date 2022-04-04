@@ -1,6 +1,6 @@
 <img src="images/jenkins-new-logo.png" width="100"/>
 
-##  Jenkins DevOps Pack
+##  Jenkins Cluster
 
 By default, the JPS package deploys Jenkins Cluster that initially contains 1 certified Jenkins container acting as a primary (previously known as master) node and 2 is secondary (previously known as slave) nodes acting as workers. Workers can be scaled horizontally from 1 to 10 nodes with auto-discovering and self-registering inside the primary node.
 
