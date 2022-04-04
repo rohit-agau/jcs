@@ -2,7 +2,7 @@ type: update
 id: jenkins-auto-cluster
 baseUrl: https://raw.githubusercontent.com/rohit-agau/jcs/master/jenkins-cluster
 logo: /images/jenkins.png
-name: Jenkins DevOps Pack Cluster Logic
+name: Jenkins Cluster Logic
 
 buttons:
 - caption: Reset Jenkins User Password
