@@ -1,0 +1,51 @@
+type: install
+id: jenkins
+baseUrl: https://raw.githubusercontent.com/jelastic-jps/jenkins/master
+logo: /images/jenkins-jelastic.png
+name: Jenkins DevOps Pack
+targetRegions:
+  type: [ vz.*, pcs.* ]
+categories:
+  - apps/clusters
+  - apps/dev-and-admin-tools
+homepage: https://jenkins.io/
+description: /text/description.md
+
+globals: 
+  user: jelastic${fn.random(1000)}
+  password: ${fn.password}
+  engine: openjdk11
+
+onBeforeInit: /scripts/quotascheck.js
+onBeforeInstall: /scripts/workerscheck.js
+
+nodes:
+  - cloudlets: 16
+    nodeType: tomcat9
+    engine: ${globals.engine} 
+    displayName: Master 
+    env:
+      XMX_DEF_PERCENT: 50
+
+  - cloudlets: 16
+    nodeType: javaengine
+    nodeGroup: slaves
+    displayName: Workers
+    engine: ${globals.engine}  
+    count: ${settings.nodes}
+    scalingMode: stateless
+    diskLimit: 100G
+    startService: false
+
+skipNodeEmails: true
+
+onInstall:
+  install:
+    jps: ${baseUrl}/addons/auto-clustering/auto-cluster.jps?_r=${fn.random}
+    settings:
+      cloned: 'false'
+      user: ${globals.user}
+      password: ${globals.password}
+  cmd[cp]: wget ${baseUrl}/images/jenkins.svg -O ${WEBROOT}ROOT/images/jenkins.svg
+
+success: /text/success.md
