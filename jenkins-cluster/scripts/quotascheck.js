@@ -25,6 +25,7 @@ for (var i = 0, n = q.length; i < n; i++) {
 
 }
 resp = {result: 0, settings: {fields: [{type: "spinner", name: "nodes", caption: "Workers", min: 0, max: max, "default": Math.min(min, max)}]}};
+resp.settings.fields.push({type: "string", name: "jenkins_version", caption: "Jenkins Version", "default": "2.332.1"})
 resp.ssl = ssl;
 
 if (markup) {
@@ -32,5 +33,5 @@ if (markup) {
     {"type": "displayfield", "cls": "warning", "height": 30, "hideLabel": true, "markup": markup},
     {"type": "compositefield","height": 0,"hideLabel": true,"width": 0,"items": [{"height": 0,"type": "string","required": true}]});
 }
-resp.settings.fields.push({[{type: "string", name: "jenkins_version", caption: "Jenkins Version", "default": "2.332.1"}])
+
 return resp;
