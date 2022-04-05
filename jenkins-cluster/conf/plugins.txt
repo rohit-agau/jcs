@@ -46,7 +46,6 @@ gradle
 workflow-aggregator
 lockable-resources
 pipeline-model-definition
-pipeline-model-declarative-agent
 pipeline-stage-tags-metadata
 docker-workflow
 workflow-basic-steps

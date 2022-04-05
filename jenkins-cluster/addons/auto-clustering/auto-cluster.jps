@@ -17,11 +17,12 @@ onInstall:
     - deploy:
         name: jenkins.war
         context: ROOT
-        archive: http://mirrors.jenkins-ci.org/war-stable/2.332.1/jenkins.war
+        archive: http://mirrors.jenkins-ci.org/war-stable/${settings.jenkins_version}/jenkins.war
     - setupJenkinsCLI
     - installJenkinsPlugins
     - setupMaster
   - if (settings.cloned == 'true'): cleanupNodes
+  - if (settings.cloned == 'true'): resetJenkinsPassword
   - readPublicKeyFromMaster
   - set:
       key: ${response.body}
@@ -82,7 +83,7 @@ actions:
      - cmd[cp]: |-
          pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
          jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
-         wget -O $jar http://localhost:8080//jnlpJars/jenkins-cli.jar
+         wget -O $jar http://localhost:8080/jnlpJars/jenkins-cli.jar
          cmd="java -jar $jar -auth admin:$pswd -s http://localhost:8080/"
          until $(echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("${settings.user}", "${globals.password}")' | $cmd groovy =); do echo "repeat..."; sleep 2; done
          sudo service tomcat restart;
