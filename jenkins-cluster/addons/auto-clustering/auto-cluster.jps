@@ -21,7 +21,6 @@ onInstall:
     - setupJenkinsCLI
     - installJenkinsPlugins
     - setupMaster
-    - resetJenkinsPassword
   - if (settings.cloned == 'true'): cleanupNodes
   - readPublicKeyFromMaster
   - set:
@@ -107,7 +106,6 @@ actions:
       while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 5; done
       pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
-      wget -O $jar http://localhost:8080//jnlpJars/jenkins-cli.jar
       cmd="java -Xmx100M -jar $jar -auth admin:$pswd -s http://localhost:8080/"
       printf "<?xml version='1.1' encoding='UTF-8'?>\n<jenkins.model.JenkinsLocationConfiguration>\n\t<adminAddress>${user.email}</adminAddress>\n\t<jenkinsUrl>${env.protocol}://${env.domain}/</jenkinsUrl>\n</jenkins.model.JenkinsLocationConfiguration>" > ~/.jenkins/jenkins.model.JenkinsLocationConfiguration.xml
       wget ${baseUrl}/conf/plugins.txt -O plugins.txt
@@ -118,7 +116,6 @@ actions:
     cmd[cp]: |-
       pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
-      wget -O $jar http://localhost:8080//jnlpJars/jenkins-cli.jar
       sed -i 's|>NEW<|>RUNNING<|g' ~/.jenkins/config.xml
       sed -i 's/<numExecutors>[0-9]*<\/numExecutors>/<numExecutors>0<\/numExecutors>/g' ~/.jenkins/config.xml;
       curl -o .jenkins/hudson.tasks.Maven.xml ${baseUrl}/conf/hudson.tasks.Maven.xml
