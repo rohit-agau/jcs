@@ -97,6 +97,7 @@ actions:
 
    setupJenkinsCLI:
     cmd[cp]: |-
+      sleep 60s
       while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 1; done
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
       wget -O $jar http://localhost:8080//jnlpJars/jenkins-cli.jar
