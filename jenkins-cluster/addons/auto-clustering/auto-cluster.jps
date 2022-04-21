@@ -1,6 +1,6 @@
 type: update
 id: jenkins-auto-cluster
-baseUrl: https://raw.githubusercontent.com/rohit-agau/jcs/master/jenkins-cluster
+baseUrl: https://raw.githubusercontent.com/agau-company/jenkins/master/jenkins-cluster
 logo: /images/jenkins.png
 name: Jenkins Cluster Logic
 

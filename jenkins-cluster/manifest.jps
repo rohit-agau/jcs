@@ -1,6 +1,6 @@
 type: install
 id: jenkins
-baseUrl: https://raw.githubusercontent.com/rohit-agau/jcs/master/jenkins-cluster
+baseUrl: https://raw.githubusercontent.com/agau-company/jenkins/master/jenkins-cluster
 logo: /images/jenkins-jelastic.png
 name: Jenkins Cluster
 targetRegions:
