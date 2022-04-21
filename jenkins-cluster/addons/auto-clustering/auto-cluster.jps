@@ -100,7 +100,7 @@ actions:
       sleep 60s
       while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 1; done
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
-      wget -O $jar http://localhost:8080//jnlpJars/jenkins-cli.jar
+      wget -O $jar http://localhost:8080/jnlpJars/jenkins-cli.jar
 
    installJenkinsPlugins:
     cmd[cp]: |-
@@ -147,7 +147,7 @@ actions:
         echo ${this.slaveNodeIp} ${response.out} >> ~/.ssh/known_hosts
         pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
         jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
-        wget -O $jar http://localhost:8080//jnlpJars/jenkins-cli.jar
+        wget -O $jar http://localhost:8080/jnlpJars/jenkins-cli.jar
         wget ${baseUrl}/conf/worker.xml -O worker.xml
         xmlstarlet ed --inplace -u "slave/name" -v "node${this.slaveNodeId}" worker.xml 2>/dev/null;
         xmlstarlet ed --inplace -u "slave/launcher/host" -v "${this.slaveNodeIp}" worker.xml 2>/dev/null;
@@ -159,5 +159,5 @@ actions:
     cmd[${nodes.cp.master.id}]: |-
       pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
-      wget -O $jar http://localhost:8080//jnlpJars/jenkins-cli.jar
+      wget -O $jar http://localhost:8080/jnlpJars/jenkins-cli.jar
       java -jar $jar -s http://localhost -auth admin:$pswd delete-node node${this.slaveNodeId}
