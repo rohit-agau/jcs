@@ -19,7 +19,7 @@ onInstall:
         context: ROOT
         archive: http://mirrors.jenkins-ci.org/war-stable/${settings.jenkins_version}/jenkins.war
     - setupJenkinsCLI
-    - installJenkinsPlugins
+    - installRequiredPlugins
     - setupMaster
   - if (settings.cloned == 'true'): cleanupNodes
   - if (settings.cloned == 'true'): resetJenkinsPassword
@@ -64,7 +64,6 @@ actions:
     cmd[cp]: |-
       yum -y install xmlstarlet freetype dejavu-sans-fonts fontconfig xorg-x11-server-Xvfb gettext; 
       yum clean all;
-      xmlstarlet ed --inplace -s Context -t elem -n 'Resources cachingAllowed="true" cacheMaxSize="40960"' /opt/tomcat/conf/context.xml;
       echo "org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=true" >> /opt/tomcat/conf/catalina.properties;
       service tomcat restart;
     user: root
@@ -102,14 +101,14 @@ actions:
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
       wget -O $jar http://localhost:8080/jnlpJars/jenkins-cli.jar
 
-   installJenkinsPlugins:
+   installRequiredPlugins
     cmd[cp]: |-
       while [[ $(curl -s -w "%{http_code}" http://localhost:8080/ -o /dev/null) != "403" ]]; do echo "."; sleep 5; done
       pswd=$(cat ~/.jenkins/secrets/initialAdminPassword)
       jar=${STACK_PATH}/webapps/ROOT/WEB-INF/lib/jenkins-cli.jar
       cmd="java -Xmx100M -jar $jar -auth admin:$pswd -s http://localhost:8080/"
       printf "<?xml version='1.1' encoding='UTF-8'?>\n<jenkins.model.JenkinsLocationConfiguration>\n\t<adminAddress>${user.email}</adminAddress>\n\t<jenkinsUrl>${env.protocol}://${env.domain}/</jenkinsUrl>\n</jenkins.model.JenkinsLocationConfiguration>" > ~/.jenkins/jenkins.model.JenkinsLocationConfiguration.xml
-      wget ${baseUrl}/conf/plugins.txt -O plugins.txt
+      wget ${baseUrl}/conf/required-plugins.txt -O plugins.txt
       while read p; do names="${p%% *} $names"; done < plugins.txt
       $cmd install-plugin $names
 
